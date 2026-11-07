@@ -1,3 +1,68 @@
+# Clawd Chain X1 — the complete X1 edition of Clawd Chain
+
+**Clawd Chain, omnichain.** This repository is the complete X1 edition of
+[Clawd Chain](https://github.com/themusebook/clawd-chain): everything in the
+upstream repo (the SVM chain, gateway, faucet, API + read-only MCP server,
+indexer, x402 payments, programs) **plus first-class support for X1
+mainnet** — the production SVM Layer-1 from X1 Labs running the Tachyon
+client — and a simple **omnichain agent** that reads across all three
+chains.
+
+## Chains supported
+
+One chain registry ([`api/lib/chains.js`](api/lib/chains.js)) drives every
+read surface. Solana JSON-RPC is the wire format on all three, so the
+repo's dependency-free account decoders work unchanged wherever the
+programs exist.
+
+| Chain | Native token | Genesis | Reads powered by |
+|---|---|---|---|
+| **Clawd Chain** | CLAWD (test asset) | `BjbvUdJLreJzCfVEQZHi3D4QttNyp3P5mNXEvHw56kBP` | the chain's own gateway |
+| **Solana mainnet** | SOL | `5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | **Alchemy** (`ALCHEMY_RPC_URL`, env only) |
+| **X1 mainnet** | XNT (9 decimals) | `4SvBP3omtvcCVWdxq1zBY5cDp4wndjsThb6nEMn6iMdN` | X1 public RPC + backend fingerprint |
+
+X1 details, connect examples, and the load-balancer caveat live in
+[**docs/x1.md**](docs/x1.md). Short version of the caveat: X1's public RPC
+hostname fronts two divergent backend families, so the registry ships a
+`fingerprint()` helper (feature-set + slotsInEpoch) and every X1 read here
+is labeled best-effort until a pinned node is used. Never settle against
+the public load balancer.
+
+## The omnichain agent
+
+[`agent/`](agent/) is a small, zero-dependency, **read-only** Node agent:
+
+- reads block height, version, and balances on Clawd Chain, Solana
+  mainnet (via Alchemy), and X1 mainnet (with the fingerprint verdict);
+- loads the **X1 Agent Skills** pack
+  ([x1wealth/x1-agent-skills](https://github.com/x1wealth/x1-agent-skills),
+  Apache-2.0) vendored into `agent/skills/` as its skill pack — six
+  skills, listed and served by the agent's own loader;
+- holds no keys, signs nothing, submits nothing — the read-only boundary
+  is structural, not a promise.
+
+## Quickstart
+
+```sh
+# the agent (no install, no dependencies)
+cd agent
+cp .env.example .env   # add ALCHEMY_RPC_URL for Solana reads
+set -a; . ./.env; set +a
+node agent.js overview # all three chains + fingerprint verdicts
+
+# the registry on its own
+node -e "const {fingerprint}=require('./api/lib/chains'); fingerprint('x1').then(console.log)"
+
+# the upstream chain + API: see the original README below
+```
+
+## Lineage
+
+Forked from `themusebook/clawd-chain` @ `b1bd776`. Everything below this
+section is the upstream README, unchanged.
+
+---
+
 # clawd chain
 
 A public, standalone SVM (Solana-compatible) chain for the clawd ecosystem. Native token label: **CLAWD**.

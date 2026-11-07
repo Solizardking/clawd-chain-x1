@@ -4,7 +4,7 @@
   "description": "A public, standalone SVM (Solana-compatible) chain for the clawd ecosystem. Native token label: **CLAWD**. It runs a single Agave `solana-test-validator` (v2.2.20) on Railway behind a small Node gateway (`proxy.js`) that serves HTTP RPC and WebSocket on one HTTPS domain. Metaplex Core, Core Candy Machine and Core Candy Guard are preloaded (cloned from mainnet at genesis).",
   "main": "proxy.js",
   "scripts": {
-    "test": "node --test test/keeper.test.js test/faucet-feed.test.js test/registry.test.js test/api-surface.test.js test/chain-services.test.js test/hetzner-deploy.test.js test/payments.test.js test/agent-doc.test.js test/metadata.test.js test/read.test.js test/clawd-protocol.test.js test/launchpad.test.js test/extension-wallet.test.js test/brain.test.js test/shield.test.js test/vault.test.js test/anchor.test.js test/far.test.js test/mldsa.test.js"
+    "test": "node --test test/chains.test.js test/keeper.test.js test/faucet-feed.test.js test/registry.test.js test/api-surface.test.js test/chain-services.test.js test/hetzner-deploy.test.js test/payments.test.js test/agent-doc.test.js test/metadata.test.js test/read.test.js test/clawd-protocol.test.js test/launchpad.test.js test/extension-wallet.test.js test/brain.test.js test/shield.test.js test/vault.test.js test/anchor.test.js test/far.test.js test/mldsa.test.js"
   },
   "keywords": [],
   "author": "",

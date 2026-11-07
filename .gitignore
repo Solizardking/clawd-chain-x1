@@ -32,3 +32,6 @@ scripts/simd-money/.keys/
 !programs/simd-money/package.json
 !programs/simd-money/demo-*-result.json
 !programs/simd-money/PROGRAM_ID.txt
+
+# Vendored X1 Agent Skills pack ships JSON fixtures/schemas/evals
+!agent/skills/**/*.json
